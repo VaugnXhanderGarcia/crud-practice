@@ -7,8 +7,7 @@ if (
     empty($_POST['wsLabRoom']) ||
     empty($_POST['wsPCNum']) ||
     empty($_POST['wsSoftware']) ||
-    empty($_POST['wsStatus']) ||
-    !isset($_POST['wsAge'])
+    empty($_POST['wsStatus'])
 ) {
     die("All fields are required.");
 }
@@ -18,10 +17,9 @@ $wsLabRoom = trim($_POST['wsLabRoom']);
 $wsPCNum = trim($_POST['wsPCNum']);
 $wsSoftware = trim($_POST['wsSoftware']);
 $wsStatus = trim($_POST['wsStatus']);
-$wsAge = intval($_POST['wsAge']);
 
 $sql = "UPDATE workstation
-        SET wsLabRoom = ?, wsPCNum = ?, wsSoftware = ?, wsStatus = ?, wsAge = ?
+        SET wsLabRoom = ?, wsPCNum = ?, wsSoftware = ?, wsStatus = ?
         WHERE wsID = ?";
 
 $stmt = $conn->prepare($sql);
@@ -30,7 +28,7 @@ if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("sssiii", $wsLabRoom, $wsPCNum, $wsSoftware, $wsStatus, $wsAge, $wsID);
+$stmt->bind_param("sssii", $wsLabRoom, $wsPCNum, $wsSoftware, $wsStatus, $wsID);
 
 if ($stmt->execute()) {
     header("Location: index.php");

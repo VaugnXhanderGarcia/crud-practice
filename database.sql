@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS workstation (
     wsLabRoom VARCHAR(50) NOT NULL,
     wsPCNum VARCHAR(50) NOT NULL,
     wsSoftware VARCHAR(255),
-    wsStatus VARCHAR(50) NOT NULL,
-    wsAge INT DEFAULT 0
+    wsStatus VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS booking (

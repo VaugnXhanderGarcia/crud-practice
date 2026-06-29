@@ -5,7 +5,6 @@ include '../config/database.php';
 if (
     empty($_POST['wsLabRoom']) ||
     empty($_POST['wsPCNum']) ||
-    !isset($_POST['wsAge']) ||
     empty($_POST['wsSoftware']) ||
     empty($_POST['wsStatus'])
 ) {
@@ -16,10 +15,9 @@ $wsLabRoom = trim($_POST['wsLabRoom']);
 $wsPCNum = trim($_POST['wsPCNum']);
 $wsSoftware = trim($_POST['wsSoftware']);
 $wsStatus = trim($_POST['wsStatus']);
-$wsAge = intval($_POST['wsAge']);
 
-$sql = "INSERT INTO workstation (wsLabRoom, wsPCNum, wsSoftware, wsStatus, wsAge)
-        VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO workstation (wsLabRoom, wsPCNum, wsSoftware, wsStatus)
+        VALUES (?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
@@ -27,7 +25,7 @@ if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("ssssi", $wsLabRoom, $wsPCNum, $wsSoftware, $wsStatus, $wsAge);
+$stmt->bind_param("ssss", $wsLabRoom, $wsPCNum, $wsSoftware, $wsStatus);
 
 if ($stmt->execute()) {
     header("Location: index.php");

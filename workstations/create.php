@@ -24,8 +24,6 @@
 
         <input type="text" name="wsStatus" placeholder="Status" required>
 
-        <input type="number" name="wsAge" placeholder="Age (years)" min="0" required>
-
         <button type="submit" class="btn btn-add">Save Workstation</button>
 
     </form>
