@@ -11,12 +11,11 @@ requireLogin();
 </head>
 <body>
 
-<div class="top-dashboard">
-    <a href="logout.php" class="btn btn-delete">Logout</a>
-</div>
-
 <div class="container">
-    <h1>Welcome to the Student Management System</h1>
+    <div class="dashboard-header">
+        <h1>Welcome to the Student Management System</h1>
+        <a href="logout.php" class="btn btn-delete">Logout</a>
+    </div>
     <p>Select a module to manage:</p>
 
     <div class="home-grid">
