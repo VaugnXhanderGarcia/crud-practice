@@ -2,10 +2,19 @@
 require_once '../config/auth.php';
 requireLogin();
 include '../config/database.php';
+
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$searchSql = '';
+if ($search !== '') {
+    $keyword = $conn->real_escape_string($search);
+    $searchSql = "WHERE b.bookID LIKE '%$keyword%' OR s.stuFName LIKE '%$keyword%' OR s.stuLName LIKE '%$keyword%' OR w.wsLabRoom LIKE '%$keyword%' OR w.wsPCNum LIKE '%$keyword%' OR b.purpose LIKE '%$keyword%'";
+}
+
 $sql = "SELECT b.*, s.stuFName, s.stuLName, w.wsLabRoom, w.wsPCNum
         FROM booking b
         JOIN student s ON b.stuID = s.stuID
         JOIN workstation w ON b.wsID = w.wsID
+        $searchSql
         ORDER BY b.bookID DESC";
 $result = $conn->query($sql);
 ?>
@@ -19,6 +28,13 @@ $result = $conn->query($sql);
 <?php include '../includes/nav.php'; ?>
 <div class="container">
     <h1>Bookings</h1>
+    <form method="get" class="search-form">
+        <input type="text" name="search" placeholder="Search bookings..." value="<?= htmlspecialchars($search); ?>">
+        <button type="submit" class="btn btn-view">Search</button>
+        <?php if ($search !== ''): ?>
+            <a href="index.php" class="btn btn-delete search-reset">Clear</a>
+        <?php endif; ?>
+    </form>
     <div class="nav-links">
         <a href="../index.php" class="btn btn-view">Back Home</a>
         <a href="create.php" class="btn btn-add">Add Booking</a>

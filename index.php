@@ -11,6 +11,10 @@ requireLogin();
 </head>
 <body>
 
+<div class="top-dashboard">
+    <a href="logout.php" class="btn btn-delete">Logout</a>
+</div>
+
 <div class="container">
     <h1>Welcome to the Student Management System</h1>
     <p>Select a module to manage:</p>
@@ -19,7 +23,7 @@ requireLogin();
         <div class="home-card">
             <h3>Students</h3>
             <p>Store and manage student information.</p>
-            <a href="students/index.php" class="btn btn-view">Add Students</a>
+            <a href="students/index.php" class="btn btn-view">Manage Students</a>
         </div>
 
         <div class="home-card">

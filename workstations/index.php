@@ -3,7 +3,14 @@ require_once '../config/auth.php';
 requireLogin();
 include '../config/database.php';
 
-$result = $conn->query("SELECT * FROM workstation ORDER BY wsID DESC");
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$searchSql = '';
+if ($search !== '') {
+    $keyword = $conn->real_escape_string($search);
+    $searchSql = "WHERE wsID LIKE '%$keyword%' OR wsLabRoom LIKE '%$keyword%' OR wsPCNum LIKE '%$keyword%' OR wsSoftware LIKE '%$keyword%' OR wsStatus LIKE '%$keyword%'";
+}
+
+$result = $conn->query("SELECT * FROM workstation $searchSql ORDER BY wsID DESC");
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +26,14 @@ $result = $conn->query("SELECT * FROM workstation ORDER BY wsID DESC");
 <div class="container">
 
     <h1>Workstation List</h1>
+
+    <form method="get" class="search-form">
+        <input type="text" name="search" placeholder="Search workstations..." value="<?= htmlspecialchars($search); ?>">
+        <button type="submit" class="btn btn-view">Search</button>
+        <?php if ($search !== ''): ?>
+            <a href="index.php" class="btn btn-delete search-reset">Clear</a>
+        <?php endif; ?>
+    </form>
 
     <div class="nav-links">
         <a href="../index.php" class="btn btn-view">Back Home</a>

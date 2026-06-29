@@ -3,7 +3,14 @@ require_once '../config/auth.php';
 requireLogin();
 include '../config/database.php';
 
-$result = $conn->query("SELECT * FROM student ORDER BY stuID DESC");
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$searchSql = '';
+if ($search !== '') {
+    $keyword = $conn->real_escape_string($search);
+    $searchSql = "WHERE stuID LIKE '%$keyword%' OR stuFName LIKE '%$keyword%' OR stuLName LIKE '%$keyword%' OR stuCourse LIKE '%$keyword%' OR stuYear LIKE '%$keyword%'";
+}
+
+$result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID DESC");
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +26,14 @@ $result = $conn->query("SELECT * FROM student ORDER BY stuID DESC");
 <div class="container">
 
     <h1>Student List</h1>
+
+    <form method="get" class="search-form">
+        <input type="text" name="search" placeholder="Search students..." value="<?= htmlspecialchars($search); ?>">
+        <button type="submit" class="btn btn-view">Search</button>
+        <?php if ($search !== ''): ?>
+            <a href="index.php" class="btn btn-delete search-reset">Clear</a>
+        <?php endif; ?>
+    </form>
 
     <a href="create.php" class="btn btn-add">Add Student</a>
 

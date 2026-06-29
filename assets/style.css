@@ -48,6 +48,32 @@ a {
     border-radius: 5px;
 }
 
+.top-dashboard {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 220px;
+}
+
+.search-form button,
+.search-reset {
+    white-space: nowrap;
+}
+
 .home-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
