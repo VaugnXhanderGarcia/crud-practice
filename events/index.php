@@ -7,16 +7,16 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $searchSql = '';
 if ($search !== '') {
     $keyword = $conn->real_escape_string($search);
-    $searchSql = "WHERE wsID LIKE '%$keyword%' OR wsLabRoom LIKE '%$keyword%' OR wsPCNum LIKE '%$keyword%' OR wsSoftware LIKE '%$keyword%' OR wsStatus LIKE '%$keyword%'";
+    $searchSql = "WHERE evCode LIKE '%$keyword%' OR evName LIKE '%$keyword%' OR evVenue LIKE '%$keyword%'";
 }
 
-$result = $conn->query("SELECT * FROM workstation $searchSql ORDER BY wsID ASC");
+$result = $conn->query("SELECT * FROM events $searchSql ORDER BY evDate ASC");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Workstation List </title>
+    <title>Event List</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
@@ -25,10 +25,10 @@ $result = $conn->query("SELECT * FROM workstation $searchSql ORDER BY wsID ASC")
 
 <div class="container">
 
-    <h1>Workstation List</h1>
+    <h1>Event List</h1>
 
     <form method="get" class="search-form">
-        <input type="text" name="search" placeholder="Search workstations..." value="<?= htmlspecialchars($search); ?>">
+        <input type="text" name="search" placeholder="Search events..." value="<?= htmlspecialchars($search); ?>">
         <button type="submit" class="btn btn-view">Search</button>
         <?php if ($search !== ''): ?>
             <a href="index.php" class="btn btn-delete search-reset">Clear</a>
@@ -37,16 +37,16 @@ $result = $conn->query("SELECT * FROM workstation $searchSql ORDER BY wsID ASC")
 
     <div class="nav-links">
         <a href="../index.php" class="btn btn-view">Back Home</a>
-        <a href="create.php" class="btn btn-add">Add Workstation</a>
+        <a href="create.php" class="btn btn-add">Add Event</a>
     </div>
 
     <table>
         <tr>
-            <th>ID</th>
-            <th>Lab Room</th>
-            <th>PC Number</th>
-            <th>Software</th>
-            <th>Status</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Venue</th>
+            <th>Fee</th>
             <th>Actions</th>
         </tr>
 
@@ -54,17 +54,17 @@ $result = $conn->query("SELECT * FROM workstation $searchSql ORDER BY wsID ASC")
             <?php while ($row = $result->fetch_assoc()) : ?>
 
             <tr>
-                <td><?= $row['wsID']; ?></td>
-                <td><?= htmlspecialchars($row['wsLabRoom']); ?></td>
-                <td><?= htmlspecialchars($row['wsPCNum']); ?></td>
-                <td><?= htmlspecialchars($row['wsSoftware']); ?></td>
-                <td><?= htmlspecialchars($row['wsStatus']); ?></td>
+                <td><?= htmlspecialchars($row['evCode']); ?></td>
+                <td><?= htmlspecialchars($row['evName']); ?></td>
+                <td><?= htmlspecialchars($row['evDate']); ?></td>
+                <td><?= htmlspecialchars($row['evVenue']); ?></td>
+                <td><?= htmlspecialchars($row['evFee']); ?></td>
                 <td>
-                    <a href="view.php?id=<?= $row['wsID']; ?>" class="btn btn-view">View</a>
-                    <a href="edit.php?id=<?= $row['wsID']; ?>" class="btn btn-edit">Edit</a>
-                    <a href="delete.php?id=<?= $row['wsID']; ?>"
+                    <a href="view.php?id=<?= urlencode($row['evCode']); ?>" class="btn btn-view">View</a>
+                    <a href="edit.php?id=<?= urlencode($row['evCode']); ?>" class="btn btn-edit">Edit</a>
+                    <a href="delete.php?id=<?= urlencode($row['evCode']); ?>"
                        class="btn btn-delete"
-                       onclick="return confirm('Are you sure you want to delete this workstation?')">
+                       onclick="return confirm('Are you sure you want to delete this event?')">
                        Delete
                     </a>
                 </td>
@@ -73,7 +73,7 @@ $result = $conn->query("SELECT * FROM workstation $searchSql ORDER BY wsID ASC")
             <?php endwhile; ?>
         <?php else: ?>
             <tr>
-                <td colspan="6" class="no-results">No workstations match your search.</td>
+                <td colspan="6" class="no-results">No events match your search.</td>
             </tr>
         <?php endif; ?>
 

@@ -3,24 +3,24 @@
 include '../config/database.php';
 
 if (
-    empty($_POST['wsID']) ||
-    empty($_POST['wsLabRoom']) ||
-    empty($_POST['wsPCNum']) ||
-    empty($_POST['wsSoftware']) ||
-    empty($_POST['wsStatus'])
+    empty($_POST['evCode']) ||
+    empty($_POST['evName']) ||
+    empty($_POST['evDate']) ||
+    empty($_POST['evVenue']) ||
+    !isset($_POST['evFee'])
 ) {
     die("All fields are required.");
 }
 
-$wsID = intval($_POST['wsID']);
-$wsLabRoom = trim($_POST['wsLabRoom']);
-$wsPCNum = trim($_POST['wsPCNum']);
-$wsSoftware = trim($_POST['wsSoftware']);
-$wsStatus = trim($_POST['wsStatus']);
+$evCode = trim($_POST['evCode']);
+$evName = trim($_POST['evName']);
+$evDate = $_POST['evDate'];
+$evVenue = trim($_POST['evVenue']);
+$evFee = floatval($_POST['evFee']);
 
-$sql = "UPDATE workstation
-        SET wsLabRoom = ?, wsPCNum = ?, wsSoftware = ?, wsStatus = ?
-        WHERE wsID = ?";
+$sql = "UPDATE events
+        SET evName = ?, evDate = ?, evVenue = ?, evFee = ?
+        WHERE evCode = ?";
 
 $stmt = $conn->prepare($sql);
 
@@ -28,7 +28,7 @@ if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("sssii", $wsLabRoom, $wsPCNum, $wsSoftware, $wsStatus, $wsID);
+$stmt->bind_param("ssds s", $evName, $evDate, $evVenue, $evFee, $evCode);
 
 if ($stmt->execute()) {
     header("Location: index.php");

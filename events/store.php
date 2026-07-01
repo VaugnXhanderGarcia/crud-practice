@@ -3,21 +3,23 @@
 include '../config/database.php';
 
 if (
-    empty($_POST['wsLabRoom']) ||
-    empty($_POST['wsPCNum']) ||
-    empty($_POST['wsSoftware']) ||
-    empty($_POST['wsStatus'])
+    empty($_POST['evCode']) ||
+    empty($_POST['evName']) ||
+    empty($_POST['evDate']) ||
+    empty($_POST['evVenue']) ||
+    !isset($_POST['evFee'])
 ) {
     die("All fields are required.");
 }
 
-$wsLabRoom = trim($_POST['wsLabRoom']);
-$wsPCNum = trim($_POST['wsPCNum']);
-$wsSoftware = trim($_POST['wsSoftware']);
-$wsStatus = trim($_POST['wsStatus']);
+$evCode = trim($_POST['evCode']);
+$evName = trim($_POST['evName']);
+$evDate = $_POST['evDate'];
+$evVenue = trim($_POST['evVenue']);
+$evFee = floatval($_POST['evFee']);
 
-$sql = "INSERT INTO workstation (wsLabRoom, wsPCNum, wsSoftware, wsStatus)
-        VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO events (evCode, evName, evDate, evVenue, evFee)
+        VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
@@ -25,7 +27,7 @@ if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("ssss", $wsLabRoom, $wsPCNum, $wsSoftware, $wsStatus);
+$stmt->bind_param("sssds", $evCode, $evName, $evDate, $evVenue, $evFee);
 
 if ($stmt->execute()) {
     header("Location: index.php");

@@ -3,22 +3,22 @@
 include '../config/database.php';
 
 if (!isset($_GET['id'])) {
-    die("Workstation ID is missing.");
+    die("Event code is missing.");
 }
 
-$id = $_GET['id'];
+$evCode = $_GET['id'];
 
-$sql = "SELECT * FROM workstation WHERE wsID = ?";
+$sql = "SELECT * FROM events WHERE evCode = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+$stmt->bind_param("s", $evCode);
 $stmt->execute();
 
 $result = $stmt->get_result();
-$workstation = $result->fetch_assoc();
+$event = $result->fetch_assoc();
 
-if (!$workstation) {
-    die("Workstation not found.");
+if (!$event) {
+    die("Event not found.");
 }
 
 ?>
@@ -26,21 +26,21 @@ if (!$workstation) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Workstation</title>
+    <title>View Event</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
 
 <div class="container">
 
-    <h1>Workstation Details</h1>
+    <h1>Event Details</h1>
 
     <div class="card">
-        <p><strong>ID:</strong> <?= $workstation['wsID']; ?></p>
-        <p><strong>Lab Room:</strong> <?= htmlspecialchars($workstation['wsLabRoom']); ?></p>
-        <p><strong>PC Number:</strong> <?= htmlspecialchars($workstation['wsPCNum']); ?></p>
-        <p><strong>Software:</strong> <?= htmlspecialchars($workstation['wsSoftware']); ?></p>
-        <p><strong>Status:</strong> <?= htmlspecialchars($workstation['wsStatus']); ?></p>
+        <p><strong>Code:</strong> <?= htmlspecialchars($event['evCode']); ?></p>
+        <p><strong>Name:</strong> <?= htmlspecialchars($event['evName']); ?></p>
+        <p><strong>Date:</strong> <?= htmlspecialchars($event['evDate']); ?></p>
+        <p><strong>Venue:</strong> <?= htmlspecialchars($event['evVenue']); ?></p>
+        <p><strong>Fee:</strong> <?= htmlspecialchars($event['evFee']); ?></p>
     </div>
 
     <br>

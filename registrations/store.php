@@ -1,18 +1,17 @@
 <?php
 include '../config/database.php';
-if (empty($_POST['stuID']) || empty($_POST['wsID']) || empty($_POST['bookStart']) || empty($_POST['bookEnd'])) {
+if (empty($_POST['partID']) || empty($_POST['evCode']) || empty($_POST['regDate']) || empty($_POST['regMode'])) {
     die("Required fields missing.");
 }
-$stuID = intval($_POST['stuID']);
-$wsID = intval($_POST['wsID']);
-$bookStart = date('Y-m-d H:i:s', strtotime($_POST['bookStart']));
-$bookEnd = date('Y-m-d H:i:s', strtotime($_POST['bookEnd']));
-$purpose = trim($_POST['purpose']);
+$partID = intval($_POST['partID']);
+$evCode = trim($_POST['evCode']);
+$regDate = $_POST['regDate'];
+$regMode = trim($_POST['regMode']);
 
-$sql = "INSERT INTO booking (stuID, wsID, bookStart, bookEnd, purpose) VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO booking (partID, evCode, regDate, regMode) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) die("Prepare failed: " . $conn->error);
-$stmt->bind_param("iisss", $stuID, $wsID, $bookStart, $bookEnd, $purpose);
+$stmt->bind_param("isss", $partID, $evCode, $regDate, $regMode);
 if ($stmt->execute()) {
     header("Location: index.php");
     exit;

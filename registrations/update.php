@@ -1,19 +1,18 @@
 <?php
 include '../config/database.php';
-if (empty($_POST['bookID']) || empty($_POST['stuID']) || empty($_POST['wsID']) || empty($_POST['bookStart']) || empty($_POST['bookEnd'])) {
+if (empty($_POST['regCode']) || empty($_POST['partID']) || empty($_POST['evCode']) || empty($_POST['regDate']) || empty($_POST['regMode'])) {
     die("Required fields missing.");
 }
-$bookID = intval($_POST['bookID']);
-$stuID = intval($_POST['stuID']);
-$wsID = intval($_POST['wsID']);
-$bookStart = date('Y-m-d H:i:s', strtotime($_POST['bookStart']));
-$bookEnd = date('Y-m-d H:i:s', strtotime($_POST['bookEnd']));
-$purpose = trim($_POST['purpose']);
+$regCode = intval($_POST['regCode']);
+$partID = intval($_POST['partID']);
+$evCode = trim($_POST['evCode']);
+$regDate = $_POST['regDate'];
+$regMode = trim($_POST['regMode']);
 
-$sql = "UPDATE booking SET stuID = ?, wsID = ?, bookStart = ?, bookEnd = ?, purpose = ? WHERE bookID = ?";
+$sql = "UPDATE booking SET partID = ?, evCode = ?, regDate = ?, regMode = ? WHERE regCode = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) die("Prepare failed: " . $conn->error);
-$stmt->bind_param("iisssi", $stuID, $wsID, $bookStart, $bookEnd, $purpose, $bookID);
+$stmt->bind_param("isssi", $partID, $evCode, $regDate, $regMode, $regCode);
 if ($stmt->execute()) {
     header("Location: index.php");
     exit;

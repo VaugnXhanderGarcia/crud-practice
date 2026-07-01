@@ -3,15 +3,15 @@
 include '../config/database.php';
 
 if (!isset($_GET['id'])) {
-    die("Workstation ID missing.");
+    die("Event code missing.");
 }
 
-$id = intval($_GET['id']);
+$evCode = $_GET['id'];
 
-$sql = "DELETE FROM workstation WHERE wsID = ?";
+$sql = "DELETE FROM events WHERE evCode = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+$stmt->bind_param("s", $evCode);
 
 if ($stmt->execute()) {
     header("Location: index.php");

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Workstation</title>
+    <title>Add Event</title>
     <link rel="stylesheet" href="../assets/style.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
@@ -12,19 +10,21 @@
 
 <div class="container">
 
-    <h1>Add Workstation</h1>
+    <h1>Add Event</h1>
 
     <form action="store.php" method="POST">
 
-        <input type="text" name="wsLabRoom" placeholder="Lab Room" required>
+        <input type="text" name="evCode" placeholder="Event Code" required>
 
-        <input type="text" name="wsPCNum" placeholder="PC Number" required>
+        <input type="text" name="evName" placeholder="Event Name" required>
 
-        <input type="text" name="wsSoftware" placeholder="Software" required>
+        <input type="date" name="evDate" required>
 
-        <input type="text" name="wsStatus" placeholder="Status" required>
+        <input type="text" name="evVenue" placeholder="Venue" required>
 
-        <button type="submit" class="btn btn-add">Save Workstation</button>
+        <input type="number" step="0.01" name="evFee" placeholder="Fee" required>
+
+        <button type="submit" class="btn btn-add">Save Event</button>
 
     </form>
 

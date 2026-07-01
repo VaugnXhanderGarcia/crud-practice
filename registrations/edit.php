@@ -1,59 +1,56 @@
 <?php
 include '../config/database.php';
-if (!isset($_GET['id'])) die("Booking ID missing.");
+if (!isset($_GET['id'])) die("Registration ID missing.");
 $id = intval($_GET['id']);
-$stmt = $conn->prepare("SELECT * FROM booking WHERE bookID = ?");
+$stmt = $conn->prepare("SELECT * FROM booking WHERE regCode = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $res = $stmt->get_result();
-$bk = $res->fetch_assoc();
-if (!$bk) die("Booking not found.");
-$students = $conn->query("SELECT * FROM student ORDER BY stuFName, stuLName");
-$workstations = $conn->query("SELECT * FROM workstation ORDER BY wsLabRoom, wsPCNum");
+$reg = $res->fetch_assoc();
+if (!$reg) die("Registration not found.");
+$participants = $conn->query("SELECT * FROM participant ORDER BY partFullName");
+$events = $conn->query("SELECT * FROM events ORDER BY evName");
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Booking</title>
+    <title>Edit Registration</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
 <?php include '../includes/nav.php'; ?>
 <div class="container">
-    <h1>Edit Booking</h1>
+    <h1>Edit Registration</h1>
     <form action="update.php" method="POST">
-        <input type="hidden" name="bookID" value="<?= $bk['bookID']; ?>">
+        <input type="hidden" name="regCode" value="<?= $reg['regCode']; ?>">
 
-        <label>Student</label>
-        <select name="stuID" required>
-            <option value="">-- Select Student --</option>
-            <?php while ($s = $students->fetch_assoc()) : ?>
-                <option value="<?= $s['stuID']; ?>" <?= $s['stuID'] == $bk['stuID'] ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($s['stuFName'] . ' ' . $s['stuLName']); ?>
+        <label>Participant</label>
+        <select name="partID" required>
+            <option value="">-- Select Participant --</option>
+            <?php while ($p = $participants->fetch_assoc()) : ?>
+                <option value="<?= $p['partID']; ?>" <?= $p['partID'] == $reg['partID'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($p['partFullName']); ?>
                 </option>
             <?php endwhile; ?>
         </select>
 
-        <label>Workstation</label>
-        <select name="wsID" required>
-            <option value="">-- Select Workstation --</option>
-            <?php while ($w = $workstations->fetch_assoc()) : ?>
-                <option value="<?= $w['wsID']; ?>" <?= $w['wsID'] == $bk['wsID'] ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($w['wsLabRoom'] . ' / ' . $w['wsPCNum']); ?>
+        <label>Event</label>
+        <select name="evCode" required>
+            <option value="">-- Select Event --</option>
+            <?php while ($e = $events->fetch_assoc()) : ?>
+                <option value="<?= htmlspecialchars($e['evCode']); ?>" <?= $e['evCode'] == $reg['evCode'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($e['evName']); ?>
                 </option>
             <?php endwhile; ?>
         </select>
 
-        <label>Start</label>
-        <input type="datetime-local" name="bookStart" value="<?= date('Y-m-d\TH:i', strtotime($bk['bookStart'])); ?>" required>
+        <label>Registration Date</label>
+        <input type="date" name="regDate" value="<?= htmlspecialchars($reg['regDate']); ?>" required>
 
-        <label>End</label>
-        <input type="datetime-local" name="bookEnd" value="<?= date('Y-m-d\TH:i', strtotime($bk['bookEnd'])); ?>" required>
+        <label>Payment Mode</label>
+        <input type="text" name="regMode" value="<?= htmlspecialchars($reg['regMode']); ?>" required>
 
-        <label>Purpose</label>
-        <textarea name="purpose" rows="3"><?= htmlspecialchars($bk['purpose']); ?></textarea>
-
-        <button type="submit" class="btn btn-edit">Update Booking</button>
+        <button type="submit" class="btn btn-edit">Update Registration</button>
     </form>
 </div>
 </body>

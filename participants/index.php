@@ -7,10 +7,10 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $searchSql = '';
 if ($search !== '') {
     $keyword = $conn->real_escape_string($search);
-    $searchSql = "WHERE stuID LIKE '%$keyword%' OR stuFName LIKE '%$keyword%' OR stuLName LIKE '%$keyword%' OR stuCourse LIKE '%$keyword%' OR stuYear LIKE '%$keyword%'";
+    $searchSql = "WHERE partID LIKE '%$keyword%' OR partFName LIKE '%$keyword%' OR partLName LIKE '%$keyword%' OR partFullName LIKE '%$keyword%' OR partCourse LIKE '%$keyword%' OR partYearLevel LIKE '%$keyword%'";
 }
 
-$result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
+$result = $conn->query("SELECT * FROM participant $searchSql ORDER BY partID ASC");
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +35,10 @@ $result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
         <?php endif; ?>
     </form>
 
-    <a href="create.php" class="btn btn-add">Add Participant</a>
+    <div class="nav-links">
+        <a href="create.php" class="btn btn-add">Add Participant</a>
+        <a href="../index.php" class="btn btn-view">Back Home</a>
+    </div>
 
     <table>
         <tr>
@@ -68,14 +71,13 @@ $result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
             <?php endwhile; ?>
         <?php else: ?>
             <tr>
-                <td colspan="6" class="no-results">No students match your search.</td>
+                <td colspan="5" class="no-results">No participants match your search.</td>
             </tr>
         <?php endif; ?>
 
     </table>
 
 </div>
-
 
 </body>
 </html>

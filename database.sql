@@ -27,3 +27,5 @@ CREATE TABLE IF NOT EXISTS booking (
     FOREIGN KEY (partID) REFERENCES participant(partID) ON DELETE CASCADE,
     FOREIGN KEY (evCode) REFERENCES events(evCode) ON DELETE CASCADE
 );
+
+

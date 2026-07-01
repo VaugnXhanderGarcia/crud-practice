@@ -17,9 +17,10 @@ $partFName = trim($_POST['partFName']);
 $partLName = trim($_POST['partLName']);
 $partCourse = trim($_POST['partCourse']);
 $partYearLevel = intval($_POST['partYearLevel']);
+$partFullName = $partFName . ' ' . $partLName;
 
 $sql = "UPDATE participant
-        SET partFName = ?, partLName = ?, partCourse = ?, partYearLevel = ?
+        SET partFName = ?, partLName = ?, partFullName = ?, partCourse = ?, partYearLevel = ?
         WHERE partID = ?";
 
 $stmt = $conn->prepare($sql);
@@ -29,11 +30,12 @@ if (!$stmt) {
 }
 
 $stmt->bind_param(
-    "sssii",
+    "sssiii",
     $partFName,
     $partLName,
+    $partFullName,
     $partCourse,
-    $partYearLevelYear,
+    $partYearLevel,
     $partID
 );
 

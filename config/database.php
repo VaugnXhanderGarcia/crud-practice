@@ -3,7 +3,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "lablocator";
+$database = "program_event";
 
 $conn = new mysqli($host, $username, $password, $database);
 

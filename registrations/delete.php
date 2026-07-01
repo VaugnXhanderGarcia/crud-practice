@@ -1,8 +1,8 @@
 <?php
 include '../config/database.php';
-if (!isset($_GET['id'])) die("Booking ID missing.");
+if (!isset($_GET['id'])) die("Registration ID missing.");
 $id = intval($_GET['id']);
-$sql = "DELETE FROM booking WHERE bookID = ?";
+$sql = "DELETE FROM booking WHERE regCode = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 if ($stmt->execute()) {

@@ -11,13 +11,14 @@ if (
     die("Required fields are missing.");
 }
 
-$stuFName = trim($_POST['partFName']);
-$stuLName = trim($_POST['partLName']);
-$stuCourse = trim($_POST['partCourse']);
-$stuYear = intval($_POST['partYearLevel']);
+$partFName = trim($_POST['partFName']);
+$partLName = trim($_POST['partLName']);
+$partCourse = trim($_POST['partCourse']);
+$partYearLevel = intval($_POST['partYearLevel']);
+$partFullName = $partFName . ' ' . $partLName;
 
-$sql = "INSERT INTO student (partFName, partLName, partCourse, partYearLevel)
-        VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO participant (partFName, partLName, partFullName, partCourse, partYearLevel)
+        VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
@@ -25,7 +26,7 @@ if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("sssi", $partFName, $partLName, $partCourse, $partYearLevel);
+$stmt->bind_param("sssii", $partFName, $partLName, $partFullName, $partCourse, $partYearLevel);
 
 if ($stmt->execute()) {
     header("Location: index.php");
