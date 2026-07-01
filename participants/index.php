@@ -16,7 +16,7 @@ $result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student List</title>
+    <title>Participant List</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
@@ -25,25 +25,24 @@ $result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
 
 <div class="container">
 
-    <h1>Student List</h1>
+    <h1>Participant List</h1>
 
     <form method="get" class="search-form">
-        <input type="text" name="search" placeholder="Search students..." value="<?= htmlspecialchars($search); ?>">
+        <input type="text" name="search" placeholder="Search participants..." value="<?= htmlspecialchars($search); ?>">
         <button type="submit" class="btn btn-view">Search</button>
         <?php if ($search !== ''): ?>
             <a href="index.php" class="btn btn-delete search-reset">Clear</a>
         <?php endif; ?>
     </form>
 
-    <a href="create.php" class="btn btn-add">Add Student</a>
+    <a href="create.php" class="btn btn-add">Add Participant</a>
 
     <table>
         <tr>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Full Name</th>
             <th>Course</th>
-            <th>Year</th>
+            <th>Year Level</th>
             <th>Actions</th>
         </tr>
 
@@ -51,17 +50,16 @@ $result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
             <?php while($row = $result->fetch_assoc()) : ?>
 
             <tr>
-                <td><?= $row['stuID']; ?></td>
-                <td><?= htmlspecialchars($row['stuFName']); ?></td>
-                <td><?= htmlspecialchars($row['stuLName']); ?></td>
-                <td><?= htmlspecialchars($row['stuCourse']); ?></td>
-                <td><?= htmlspecialchars($row['stuYear']); ?></td>
+                <td><?= $row['partID']; ?></td>
+                <td><?= htmlspecialchars($row['partFullName']); ?></td>
+                <td><?= htmlspecialchars($row['partCourse']); ?></td>
+                <td><?= htmlspecialchars($row['partYearLevel']); ?></td>
                 <td>
-                    <a href="view.php?id=<?= $row['stuID']; ?>" class="btn btn-view">View</a>
-                    <a href="edit.php?id=<?= $row['stuID']; ?>" class="btn btn-edit">Edit</a>
-                    <a href="delete.php?id=<?= $row['stuID']; ?>"
+                    <a href="view.php?id=<?= $row['partID']; ?>" class="btn btn-view">View</a>
+                    <a href="edit.php?id=<?= $row['partID']; ?>" class="btn btn-edit">Edit</a>
+                    <a href="delete.php?id=<?= $row['partID']; ?>"
                        class="btn btn-delete"
-                       onclick="return confirm('Are you sure you want to delete this student?')">
+                       onclick="return confirm('Are you sure you want to delete this participant?')">
                        Delete
                     </a>
                 </td>
@@ -77,6 +75,7 @@ $result = $conn->query("SELECT * FROM student $searchSql ORDER BY stuID ASC");
     </table>
 
 </div>
+
 
 </body>
 </html>

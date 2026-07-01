@@ -3,22 +3,22 @@
 include '../config/database.php';
 
 
-if (isset($_GET['stuID'])) {
-    $stuID = intval($_GET['stuID']);
+if (isset($_GET['partID'])) {
+    $partID = intval($_GET['partID']);
 } elseif (isset($_GET['id'])) {
-    $stuID   = intval($_GET['id']);
+    $partID   = intval($_GET['id']);
 } else {
-    die("Student ID missing.");
+    die("Participant ID missing.");
 }
 
-$sql = "DELETE FROM student WHERE stuID = ?";
+$sql = "DELETE FROM participant WHERE partID = ?";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("i", $stuID);
+$stmt->bind_param("i", $partID);
 
 if ($stmt->execute()) {
     header("Location: index.php");
